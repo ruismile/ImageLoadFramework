@@ -26,6 +26,10 @@ public class RequestQueue {
     //一组转发器
     private RequestDispatcher[] mDispachers;
 
+    public RequestQueue(int threadCount) {
+        this.threadCount = threadCount;
+    }
+
     /**
      * 添加请求对象
      * @param request
@@ -45,7 +49,21 @@ public class RequestQueue {
      * 开启请求
      */
     public void start() {
+        //先停止
+        stop();
+        startDispatchers();
+    }
 
+    /**
+     * 开启转发器
+     */
+    private void startDispatchers() {
+        mDispachers = new RequestDispatcher[threadCount];
+        for (int i = 0; i < threadCount; i++) {
+            RequestDispatcher p = new RequestDispatcher(mRequestQueue);
+            mDispachers[i] = p;
+            mDispachers[i].start();
+        }
     }
 
     /**

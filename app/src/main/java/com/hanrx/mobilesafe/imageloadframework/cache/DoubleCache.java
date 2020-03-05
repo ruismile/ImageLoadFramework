@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import com.hanrx.mobilesafe.imageloadframework.request.BitmapRequest;
 
-public class DisCache implements BitmapCache{
+public class DoubleCache implements BitmapCache{
     @Override
     public void put(BitmapRequest bitmapRequest, Bitmap bitmap) {
 

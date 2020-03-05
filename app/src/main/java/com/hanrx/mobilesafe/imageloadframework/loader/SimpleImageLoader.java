@@ -20,6 +20,9 @@ public class SimpleImageLoader {
     }
     private SimpleImageLoader(ImageLoaderConfig imageLoaderConfig) {
         this.config = imageLoaderConfig;
+        mRequestQueue = new RequestQueue(config.getThreadCount());
+        //开启请求队列
+        mRequestQueue.start();
     }
 
     /**
@@ -67,7 +70,10 @@ public class SimpleImageLoader {
      */
     public void displayImage(ImageView imageView, String uri, DisplayConfig displayConfig,
                              ImageListener imageListener) {
-        BitmapRequest bitmapRequest = new BitmapRequest();
+        //实例化一个请求
+        BitmapRequest bitmapRequest = new BitmapRequest(imageView, uri, displayConfig, imageListener);
+        //添加到请求队列
+        mRequestQueue.addRequest(bitmapRequest);
     }
 
     public static interface ImageListener {

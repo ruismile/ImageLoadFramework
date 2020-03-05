@@ -61,12 +61,57 @@ public class BitmapRequest implements Comparator<BitmapRequest> {
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BitmapRequest that = (BitmapRequest) o;
+
+        if (serialNo != that.serialNo) return false;
+        return loadPolicy != null ? loadPolicy.equals(that.loadPolicy) : that.loadPolicy == null;
+
     }
 
     @Override
-    public boolean equals() {
-        return super.equals();
+    public int hashCode() {
+        int result = loadPolicy != null ? loadPolicy.hashCode() : 0;
+        result = 31 * result + serialNo;
+        return result;
+    }
+
+    public ImageView getImageView() {
+        return imageViewSoft.get();
+    }
+
+    public String getImageUrl() {
+        return ImageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        ImageUrl = imageUrl;
+    }
+
+    public String getImageUriMD5() {
+        return imageUriMD5;
+    }
+
+    public void setImageUriMD5(String imageUriMD5) {
+        this.imageUriMD5 = imageUriMD5;
+    }
+
+    public DisplayConfig getDisplayConfig() {
+        return displayConfig;
+    }
+
+    public void setDisplayConfig(DisplayConfig displayConfig) {
+        this.displayConfig = displayConfig;
+    }
+
+    public LoadPolicy getLoadPolicy() {
+        return loadPolicy;
+    }
+
+    public void setLoadPolicy(LoadPolicy loadPolicy) {
+        this.loadPolicy = loadPolicy;
     }
 }
