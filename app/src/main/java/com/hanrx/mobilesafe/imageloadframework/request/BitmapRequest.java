@@ -5,11 +5,11 @@ import android.widget.ImageView;
 import com.hanrx.mobilesafe.imageloadframework.config.DisplayConfig;
 import com.hanrx.mobilesafe.imageloadframework.loader.SimpleImageLoader;
 import com.hanrx.mobilesafe.imageloadframework.policy.LoadPolicy;
+import com.hanrx.mobilesafe.imageloadframework.utils.MD5Utils;
 
 import java.lang.ref.SoftReference;
-import java.util.Comparator;
 
-public class BitmapRequest implements Comparator<BitmapRequest> {
+public class BitmapRequest implements Comparable<BitmapRequest> {
     //持有imageView的软引用
     private SoftReference<ImageView> imageViewSoft;
     //图片路径
@@ -28,6 +28,7 @@ public class BitmapRequest implements Comparator<BitmapRequest> {
         //设置可见的ImageView的Tag,要下载的图片路径
         imageView.setTag(imageUrl);
         this.ImageUrl = imageUrl;
+        this.imageUriMD5 = MD5Utils.toMD5(imageUrl);
         if (displayConfig != null) {
             this.displayConfig = displayConfig;
         }
@@ -40,17 +41,18 @@ public class BitmapRequest implements Comparator<BitmapRequest> {
     //编号
     private int serialNo;
 
-
     /**
      * 优先级的确定
-     * @param bitmapRequest
-     * @param t1
+     * @param request
      * @return
      */
     @Override
-    public int compare(BitmapRequest bitmapRequest, BitmapRequest t1) {
-        return loadPolicy.compareto(bitmapRequest, t1);
+    public int compareTo(BitmapRequest request) {
+        return loadPolicy.compareto(request,this);
     }
+
+
+
 
     public int getSerialNo() {
         return serialNo;

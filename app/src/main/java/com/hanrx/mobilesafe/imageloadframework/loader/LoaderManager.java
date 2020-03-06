@@ -12,14 +12,14 @@ public class LoaderManager {
     private LoaderManager() {
         register("http", new UrlLoader());
         register("https", new UrlLoader());
-        register("file", new UrlLoader());
+        register("file", new LocalLoader());
     }
 
     public static LoaderManager getInstance(){
         return mInstance;
     }
 
-    private void register(String schema, UrlLoader loader){
+    private void register(String schema, Loader loader){
         mLoaderMap.put(schema,loader);
     }
 

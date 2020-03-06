@@ -1,17 +1,20 @@
 package com.hanrx.mobilesafe.imageloadframework.config;
 
 import com.hanrx.mobilesafe.imageloadframework.cache.BitmapCache;
+import com.hanrx.mobilesafe.imageloadframework.cache.DoubleCache;
+import com.hanrx.mobilesafe.imageloadframework.cache.MemoryCache;
 import com.hanrx.mobilesafe.imageloadframework.policy.LoadPolicy;
+import com.hanrx.mobilesafe.imageloadframework.policy.ReversePolicy;
 
 public class ImageLoaderConfig {
     //缓存策略
-    private BitmapCache bitmapCache;
+    private BitmapCache bitmapCache = new MemoryCache();
     //加载策略
-    private LoadPolicy loadPolicy;
+    private LoadPolicy loadPolicy = new ReversePolicy();
     //默认线程数
     private int threadCount = Runtime.getRuntime().availableProcessors();
     //显示配置
-    private DisplayConfig displayConfig;
+    private DisplayConfig displayConfig = new DisplayConfig();
 
     private ImageLoaderConfig() {
 

@@ -28,6 +28,43 @@ public abstract class AbstarctLoader implements Loader{
             //缓存图片
             cacheBitmap(request, bitmap);
         }
+        deliveryToUIThread(request,bitmap);
+    }
+
+    /**
+     * 交给主线程显示
+     * @param request
+     * @param bitmap
+     */
+    protected void deliveryToUIThread(final BitmapRequest request, final Bitmap bitmap) {
+        ImageView imageView = request.getImageView();
+        if(imageView!=null)
+        {
+            imageView.post(new Runnable() {
+                @Override
+                public void run() {
+                    updateImageView(request, bitmap);
+                }
+
+            });
+        }
+    }
+
+    private void updateImageView(final BitmapRequest request, final Bitmap bitmap) {
+        ImageView imageView = request.getImageView();
+        //加载正常  防止图片错位
+        if(bitmap != null && imageView.getTag().equals(request.getImageUrl())){
+            imageView.setImageBitmap(bitmap);
+        }
+        //有可能加载失败
+        if(bitmap == null && displayConfig!=null&&displayConfig.failedImage!=-1){
+            imageView.setImageResource(displayConfig.failedImage);
+        }
+        //监听
+        //回调 给圆角图片  特殊图片进行扩展
+        if(request.imageListener != null){
+            request.imageListener.onComplete(imageView, bitmap, request.getImageUrl());
+        }
     }
 
     /**
